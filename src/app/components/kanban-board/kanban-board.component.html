@@ -1,0 +1,10 @@
+<div cdkDropListGroup>
+    <div fxLayout="row" fxLayoutAlign="space-evenly">
+        <div *ngFor="let rowKey of rowKeys">
+            <p>{{rowKey}}</p>
+            <div cdkDropList class="example-list" [cdkDropListData]="board[rowKey]" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let task of board[rowKey]" cdkDrag>{{task.title}}</div>
+            </div>
+        </div>
+    </div>
+</div>

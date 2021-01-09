@@ -1,0 +1,19 @@
+{
+    "No status": [
+        {
+            "title": "First task",
+            "uid": "1"
+        },
+        {
+            "title": "Second task",
+            "uid": "2"
+        },
+        {
+            "title": "third task",
+            "uid": "3"
+        }
+    ],
+    "Not started": [],
+    "In progress": [],
+    "Completed": []
+}
