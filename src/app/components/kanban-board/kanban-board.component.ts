@@ -3,7 +3,6 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from "@angular/cdk/drag-drop";
-import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Board, Task } from "src/app/interfaces/task";
 import { KanbanService } from "src/app/services/kanban.service";
