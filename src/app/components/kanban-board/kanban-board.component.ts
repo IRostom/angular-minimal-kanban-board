@@ -5,7 +5,8 @@ import {
 } from "@angular/cdk/drag-drop";
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { Task } from "src/app/interfaces/task";
+import { Board, Task } from "src/app/interfaces/task";
+import { KanbanService } from "src/app/services/kanban.service";
 
 @Component({
   selector: "app-kanban-board",
@@ -14,16 +15,19 @@ import { Task } from "src/app/interfaces/task";
 })
 export class KanbanBoardComponent implements OnInit {
   rowKeys: string[] = [];
-  board: {};
-  constructor(private http: HttpClient) {}
+  board: Board = null;
+  boardModified = {};
+  constructor(private kanban: KanbanService) {}
 
   ngOnInit(): void {
-    this.http.get("assets/kanban-starter.json").subscribe((board) => {
+    this.kanban.fetchBoard().subscribe((board) => {
+      // console.log(board);
       this.board = board;
-      for (const key in board) {
-        console.log(key);
-        this.rowKeys.push(key);
-        // this.board[key] = board
+      this.kanban.updateBoardState(this.board);
+      for (const status of board.tasks) {
+        // console.log(status.title);
+        this.rowKeys.push(status.title);
+        this.boardModified[status.title] = status.tasks;
       }
     });
   }
@@ -44,6 +48,7 @@ export class KanbanBoardComponent implements OnInit {
         event.currentIndex
       );
     }
-    console.log("data after dragging completed", this.board);
+    this.kanban.updateBoardState(this.board);
+    // console.log("data after dragging completed", this.board);
   }
 }

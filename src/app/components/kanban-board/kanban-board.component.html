@@ -1,9 +1,10 @@
-<div cdkDropListGroup>
-    <div fxLayout="row" fxLayoutAlign="space-evenly">
-        <div *ngFor="let rowKey of rowKeys">
-            <p>{{rowKey}}</p>
-            <div cdkDropList class="example-list" [cdkDropListData]="board[rowKey]" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let task of board[rowKey]" cdkDrag>{{task.title}}</div>
+<div class="container-fluid my-5 bg-secondry" cdkDropListGroup>
+    <div class="row flex-nowrap ">
+        <div *ngFor="let rowKey of rowKeys" class="kanban-row col-auto mx-2">
+            <h3>{{rowKey}}</h3>
+            <div cdkDropList class="tasks-list" [cdkDropListData]="boardModified[rowKey]"
+                (cdkDropListDropped)="drop($event)">
+                <mat-card class="mt-3 task" *ngFor="let task of boardModified[rowKey]" cdkDrag>{{task.title}}</mat-card>
             </div>
         </div>
     </div>

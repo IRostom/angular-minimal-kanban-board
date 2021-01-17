@@ -1,19 +1,46 @@
 {
-    "No status": [
+    "title": "Kanban Board Starter",
+    "tasks": [
         {
-            "title": "First task",
-            "uid": "1"
+            "title": "No status",
+            "tasks": [
+                {
+                    "title": "First taskFirst taskFirst taskFirst task",
+                    "uid": "1"
+                },
+                {
+                    "title": "Second task",
+                    "uid": "2"
+                },
+                {
+                    "title": "third task",
+                    "uid": "3"
+                },
+                {
+                    "title": "",
+                    "uid": "3"
+                }
+            ]
         },
         {
-            "title": "Second task",
-            "uid": "2"
+            "title": "Not started",
+            "tasks": []
         },
         {
-            "title": "third task",
-            "uid": "3"
+            "title": "In progress",
+            "tasks": []
+        },
+        {
+            "title": "Completed",
+            "tasks": []
+        },
+        {
+            "title": "Production",
+            "tasks": []
+        },
+        {
+            "title": "Review",
+            "tasks": []
         }
-    ],
-    "Not started": [],
-    "In progress": [],
-    "Completed": []
+    ]
 }
