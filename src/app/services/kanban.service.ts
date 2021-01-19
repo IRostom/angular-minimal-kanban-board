@@ -20,7 +20,8 @@ export class KanbanService {
 
   // update board state
   updateBoardState(board: Board) {
+    // console.log(board);
     this.kanbanBoard.next(board);
-    localStorage.setItem(board.title, JSON.stringify(board));
+    // localStorage.setItem(board.title, JSON.stringify(board));
   }
 }

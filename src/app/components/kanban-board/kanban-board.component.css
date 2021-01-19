@@ -1,7 +1,7 @@
 .kanban-row {
   min-width: 200px;
   max-width: 200px;
-  height: auto;
+  height: 100%;
   border: solid 1px #ccc;
   border-radius: 10px;
   background: white;
@@ -9,7 +9,7 @@
 }
 
 .tasks-list {
-  height: 80%;
+  min-height: 80px;
   background: white;
 }
 
@@ -19,6 +19,11 @@
   box-shadow: none;
 }
 
+.mat-flat-button {
+  border: solid 1px #ccc;
+  border-radius: 10px;
+  background-color: lightgray;
+}
 
 .cdk-drag-preview {
   box-sizing: border-box;

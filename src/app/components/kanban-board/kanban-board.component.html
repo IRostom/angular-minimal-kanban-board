@@ -1,11 +1,16 @@
 <div class="container-fluid my-5 bg-secondry" cdkDropListGroup>
     <div class="row flex-nowrap ">
-        <div *ngFor="let rowKey of rowKeys" class="kanban-row col-auto mx-2">
+        <div *ngFor="let rowKey of rowKeys" class="kanban-row col-auto mx-2 d-flex flex-column justify-content-between">
             <h3>{{rowKey}}</h3>
-            <div cdkDropList class="tasks-list" [cdkDropListData]="boardModified[rowKey]"
+            <div cdkDropList class="tasks-list mb-3" [cdkDropListData]="boardModified[rowKey]"
                 (cdkDropListDropped)="drop($event)">
-                <mat-card class="mt-3 task" *ngFor="let task of boardModified[rowKey]" cdkDrag>{{task.title}}</mat-card>
+                <mat-card class="mt-3 task" *ngFor="let task of boardModified[rowKey]" cdkDrag>
+                    <mat-form-field appearance="fill">
+                        <textarea matInput>{{task.title}}</textarea>
+                    </mat-form-field>
+                </mat-card>
             </div>
+            <button mat-flat-button class="w-100" (click)="addTask(rowKey)">+ Add Task</button>
         </div>
     </div>
 </div>

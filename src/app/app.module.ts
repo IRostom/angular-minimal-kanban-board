@@ -9,6 +9,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [AppComponent, KanbanBoardComponent],
@@ -19,7 +21,9 @@ import {MatCardModule} from '@angular/material/card';
     DragDropModule,
     HttpClientModule,
     FlexLayoutModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent],

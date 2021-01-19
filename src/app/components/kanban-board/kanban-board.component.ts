@@ -19,16 +19,43 @@ export class KanbanBoardComponent implements OnInit {
   constructor(private kanban: KanbanService) {}
 
   ngOnInit(): void {
-    this.kanban.fetchBoard().subscribe((board) => {
-      // console.log(board);
-      this.board = board;
-      this.kanban.updateBoardState(this.board);
-      for (const status of board.tasks) {
-        // console.log(status.title);
-        this.rowKeys.push(status.title);
-        this.boardModified[status.title] = status.tasks;
+    this.kanban.fetchBoard().subscribe(
+      (board) => {
+        // console.log(board);
+        if (board) {
+          this.kanban.updateBoardState(board);
+        }
+      },
+      (e) => {
+        console.log(e);
       }
-    });
+    );
+
+    this.kanban.kanbanBoard$.subscribe(
+      (board) => {
+        console.log(board);
+        if (board) {
+          this.board = board;
+          for (const status of board.tasks) {
+            // console.log(
+            //   "status:",
+            //   status.title,
+            //   "found:",
+            //   this.rowKeys.findIndex((el) => el === status.title)
+            // );
+            if (this.rowKeys.findIndex((el) => el === status.title) < 0) {
+              // console.log("added");
+              this.rowKeys.push(status.title);
+            }
+            // console.log(this.rowKeys);
+            this.boardModified[status.title] = status.tasks;
+          }
+        }
+      },
+      (e) => {
+        console.log(e);
+      }
+    );
   }
 
   drop(event: CdkDragDrop<Task[]>) {
@@ -49,5 +76,17 @@ export class KanbanBoardComponent implements OnInit {
     }
     this.kanban.updateBoardState(this.board);
     // console.log("data after dragging completed", this.board);
+  }
+
+  addTask(status: String) {
+    const task: Task = {
+      title: "",
+      uid: "",
+    };
+    const index = this.board.tasks.findIndex((el) => el.title === status);
+    if (index >= 0) {
+      this.board.tasks[index].tasks.push(task);
+      this.kanban.updateBoardState(this.board);
+    }
   }
 }
