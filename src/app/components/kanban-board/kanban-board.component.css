@@ -17,12 +17,24 @@
   border: solid 1px #ccc;
   border-radius: 10px;
   box-shadow: none;
+  padding: 0;
 }
 
 .mat-flat-button {
   border: solid 1px #ccc;
   border-radius: 10px;
   background-color: lightgray;
+}
+
+textarea {
+  outline: none;
+  resize: none;
+  box-sizing: content-box;
+  background-color: inherit;
+  width: 95%;
+  height: 100%;
+  border-radius: 10px;
+  border: none;
 }
 
 .cdk-drag-preview {

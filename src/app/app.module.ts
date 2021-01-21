@@ -11,6 +11,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {TextFieldModule} from '@angular/cdk/text-field';
 
 @NgModule({
   declarations: [AppComponent, KanbanBoardComponent],
@@ -23,7 +24,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     FlexLayoutModule,
     MatCardModule,
     MatButtonModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    TextFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent],

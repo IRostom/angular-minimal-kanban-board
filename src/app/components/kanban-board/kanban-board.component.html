@@ -4,10 +4,8 @@
             <h3>{{rowKey}}</h3>
             <div cdkDropList class="tasks-list mb-3" [cdkDropListData]="boardModified[rowKey]"
                 (cdkDropListDropped)="drop($event)">
-                <mat-card class="mt-3 task" *ngFor="let task of boardModified[rowKey]" cdkDrag>
-                    <mat-form-field appearance="fill">
-                        <textarea matInput>{{task.title}}</textarea>
-                    </mat-form-field>
+                <mat-card class="mt-3 p-2" *ngFor="let task of boardModified[rowKey]" cdkDrag>
+                    <textarea cdkTextareaAutosize matInput>{{task.title}}</textarea>
                 </mat-card>
             </div>
             <button mat-flat-button class="w-100" (click)="addTask(rowKey)">+ Add Task</button>
