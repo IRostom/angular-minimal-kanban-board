@@ -12,9 +12,11 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import {MatIconModule} from '@angular/material/icon';
+import { TaskCardComponent } from './components/task-card/task-card.component';
 
 @NgModule({
-  declarations: [AppComponent, KanbanBoardComponent],
+  declarations: [AppComponent, KanbanBoardComponent, TaskCardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,7 +27,8 @@ import {TextFieldModule} from '@angular/cdk/text-field';
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
-    TextFieldModule
+    TextFieldModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent],

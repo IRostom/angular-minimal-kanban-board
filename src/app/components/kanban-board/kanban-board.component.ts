@@ -3,8 +3,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from "@angular/cdk/drag-drop";
-import { Component, OnInit } from "@angular/core";
-import { Board, Task } from "src/app/interfaces/task";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Board, Status, Task } from "src/app/interfaces/task";
 import { KanbanService } from "src/app/services/kanban.service";
 
 @Component({
@@ -16,6 +16,8 @@ export class KanbanBoardComponent implements OnInit {
   rowKeys: string[] = [];
   board: Board = null;
   boardModified = {};
+  editableTaskUid: string;
+  @ViewChild("task") taskCard: ElementRef;
   constructor(private kanban: KanbanService) {}
 
   ngOnInit(): void {
