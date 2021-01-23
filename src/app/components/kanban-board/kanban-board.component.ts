@@ -21,26 +21,12 @@ export class KanbanBoardComponent implements OnInit {
   constructor(private kanban: KanbanService) {}
 
   ngOnInit(): void {
-    // this.kanban.fetchBoard().subscribe(
-    //   (board) => {
-    //     // console.log(board);
-    //     if (board) {
-    //       this.kanban.updateBoardState(board);
-    //     }
-    //   },
-    //   (e) => {
-    //     console.log(e);
-    //   }
-    // );
-
-    this.kanban.fetchBoard();
-
-    this.kanban.kanbanBoard$.subscribe(
+    this.kanban.activeBoard$.subscribe(
       (board) => {
         // console.log(board);
         if (board) {
           this.board = board;
-          for (const status of board.tasks) {
+          for (const status of board.status) {
             if (this.rowKeys.findIndex((el) => el === status.title) < 0) {
               this.rowKeys.push(status.title);
             }
@@ -70,7 +56,7 @@ export class KanbanBoardComponent implements OnInit {
         event.currentIndex
       );
     }
-    this.kanban.updateBoardState(this.board);
+    this.kanban.updateActiveBoard(this.board);
     // console.log("data after dragging completed", this.board);
   }
 
@@ -79,9 +65,11 @@ export class KanbanBoardComponent implements OnInit {
       title: "",
       uid: uuidv1(),
     };
-    const statusIndex = this.board.tasks.findIndex((el) => el.title === status);
+    const statusIndex = this.board.status.findIndex(
+      (el) => el.title === status
+    );
     if (statusIndex >= 0) {
-      this.kanban.EditBoard(status, task);
+      this.kanban.EditActiveBoard(status, task);
       this.editableTaskUid = task.uid;
     }
   }

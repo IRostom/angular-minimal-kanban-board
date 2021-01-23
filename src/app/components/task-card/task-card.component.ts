@@ -39,7 +39,7 @@ export class TaskCardComponent implements OnInit, AfterViewChecked, OnChanges {
         // update title
         if (this.task) {
           this.task.title = value;
-          this.kanban.EditBoard(this.status, this.task);
+          this.kanban.EditActiveBoard(this.status, this.task);
         } else {
           this.title.setValue("");
         }

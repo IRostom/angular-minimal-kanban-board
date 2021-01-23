@@ -5,7 +5,7 @@
             <div cdkDropList class="tasks-list mb-3" [cdkDropListData]="boardModified[rowKey]"
                 (cdkDropListDropped)="drop($event)">
                 <div *ngFor="let task of boardModified[rowKey]">
-                    <app-task-card [task]=task [status]="rowKey" [edit]="editTask(task.uid)">
+                    <app-task-card [task]=task [status]="rowKey" [edit]="editTask(task.uid)" cdkDrag>
                     </app-task-card>
                 </div>
             </div>

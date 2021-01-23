@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { Board, Task } from "../interfaces/task";
 import { v1 as uuidv1 } from "uuid";
 
@@ -8,36 +8,71 @@ import { v1 as uuidv1 } from "uuid";
 })
 export class KanbanService {
   // Active board state
-  private kanbanBoard: BehaviorSubject<Board> = new BehaviorSubject(null);
-  kanbanBoard$ = this.kanbanBoard.asObservable();
+  private activeBoard: BehaviorSubject<Board> = new BehaviorSubject(null);
+  activeBoard$ = this.activeBoard.asObservable();
+
+  // user boards state
+  private userBoards: BehaviorSubject<Board[]> = new BehaviorSubject(null);
+  userBoards$ = this.userBoards.asObservable();
 
   constructor() {}
 
-  // update board state
-  updateBoardState(board: Board) {
-    // console.log(board);
-    this.kanbanBoard.next(board);
-    localStorage.setItem("board", JSON.stringify(board));
+  updateActiveBoard(board: Board, updateStorage: boolean = true) {
+    // update active board state
+    this.activeBoard.next(board);
+
+    if (updateStorage) {
+      // update the board in local storage
+      const boardsString = localStorage.getItem("boards");
+      const boards: Board[] = JSON.parse(boardsString);
+      const index = boards.findIndex((b) => b.uid === board.uid);
+      if (index >= 0) {
+        boards[index] = board;
+        this.updateUserBoards(boards);
+        // localStorage.setItem("boards", JSON.stringify(boards));
+      }
+    }
   }
 
-  // fetch board from local storage
-  fetchBoard() {
+  updateUserBoards(boards: Board[], updateStorage: boolean = true) {
+    // update user boards state
+    this.userBoards.next(boards);
+
+    if (updateStorage) {
+      // update the user boards list in local storage
+      localStorage.setItem("boards", JSON.stringify(boards));
+    }
+  }
+
+  // use only on startup
+  fetchUserBoards() {
     // let boardsList: Board[] = [];
-    let boardString = localStorage.getItem("board");
-    let board: Board;
+    let boardString = localStorage.getItem("boards");
+    let boards: Board[] = [];
     if (boardString) {
-      board = JSON.parse(boardString);
+      boards = JSON.parse(boardString);
     } else {
       // create a new list
-      board = this.createNewBoard();
+      boards.push(this.createEmptyBoard());
+      localStorage.setItem("boards", JSON.stringify(boards));
     }
-    this.updateBoardState(board);
+    this.updateUserBoards(boards, false);
+    this.updateActiveBoard(boards[0], false);
   }
 
-  createNewBoard(): Board {
+  createNewBoard() {
+    const emptyBoard = this.createEmptyBoard();
+    const userBoards = this.userBoards.value;
+    userBoards.push(emptyBoard);
+    this.updateUserBoards(userBoards);
+    this.updateActiveBoard(emptyBoard, false);
+  }
+
+  createEmptyBoard(): Board {
     const newBoard: Board = {
       title: "Untitled board",
-      tasks: [
+      uid: uuidv1(),
+      status: [
         {
           title: "No status",
           tasks: [
@@ -72,13 +107,13 @@ export class KanbanService {
     return newBoard;
   }
 
-  EditBoard(status: String, task: Task) {
-    const currentBoard = this.kanbanBoard.value;
-    const currentStatusIndex = currentBoard.tasks.findIndex(
+  EditActiveBoard(status: String, task: Task) {
+    const currentBoard = this.activeBoard.value;
+    const currentStatusIndex = currentBoard.status.findIndex(
       (t) => t.title === status
     );
     if (currentStatusIndex >= 0) {
-      const currentStatus = currentBoard.tasks[currentStatusIndex];
+      const currentStatus = currentBoard.status[currentStatusIndex];
       const currentTaskIndex = currentStatus.tasks.findIndex(
         (t) => t.uid === task.uid
       );
@@ -86,10 +121,11 @@ export class KanbanService {
         const currentTask = currentStatus.tasks[currentTaskIndex];
         currentTask.title = task.title;
         // console.log(currentBoard);
-        this.updateBoardState(currentBoard);
+        // this.updateActiveBoard(currentBoard);
       } else {
         currentStatus.tasks.push(task);
       }
+      this.updateActiveBoard(currentBoard);
     }
   }
 }

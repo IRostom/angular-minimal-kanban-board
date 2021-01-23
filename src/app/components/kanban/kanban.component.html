@@ -1,26 +1,30 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
-    </mat-nav-list>
+
+    <div *ngIf="userBoards$ | async as userBoards">
+      <div *ngIf="userBoards?.length > 0"></div>
+      <mat-action-list>
+        <button *ngFor="let board of userBoards" mat-list-item
+          (click)="changeActiveBoard(board)">{{board.title}}</button>
+      </mat-action-list>
+    </div>
+
+    <mat-action-list>
+      <button mat-list-item (click)="createNewBoard()">Create new Note</button>
+    </mat-action-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>minimal-kanban-board</span>
+      <div *ngIf="activeBoard$|async as board">
+        <span>{{board.title}}</span>
+      </div>
     </mat-toolbar>
     <app-kanban-board></app-kanban-board>
   </mat-sidenav-content>

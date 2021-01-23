@@ -10,5 +10,6 @@ export interface Status {
 
 export interface Board {
   title: string;
-  tasks: Status[];
+  uid: string;
+  status: Status[];
 }
