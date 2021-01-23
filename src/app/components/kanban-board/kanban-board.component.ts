@@ -21,17 +21,19 @@ export class KanbanBoardComponent implements OnInit {
   constructor(private kanban: KanbanService) {}
 
   ngOnInit(): void {
-    this.kanban.fetchBoard().subscribe(
-      (board) => {
-        // console.log(board);
-        if (board) {
-          this.kanban.updateBoardState(board);
-        }
-      },
-      (e) => {
-        console.log(e);
-      }
-    );
+    // this.kanban.fetchBoard().subscribe(
+    //   (board) => {
+    //     // console.log(board);
+    //     if (board) {
+    //       this.kanban.updateBoardState(board);
+    //     }
+    //   },
+    //   (e) => {
+    //     console.log(e);
+    //   }
+    // );
+
+    this.kanban.fetchBoard();
 
     this.kanban.kanbanBoard$.subscribe(
       (board) => {
