@@ -14,6 +14,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import {MatIconModule} from '@angular/material/icon';
 import { TaskCardComponent } from './components/task-card/task-card.component';
+import { ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [AppComponent, KanbanBoardComponent, TaskCardComponent],
@@ -28,7 +29,8 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
     MatButtonModule,
     MatFormFieldModule,
     TextFieldModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -11,10 +11,6 @@ export class KanbanService {
   private kanbanBoard: BehaviorSubject<Board> = new BehaviorSubject(null);
   kanbanBoard$ = this.kanbanBoard.asObservable();
 
-  // current Editable Task state
-  private editTask: BehaviorSubject<Task> = new BehaviorSubject(null);
-  editTask$ = this.editTask.asObservable();
-
   constructor(private http: HttpClient) {}
 
   // fetch board data
@@ -29,9 +25,24 @@ export class KanbanService {
     // localStorage.setItem(board.title, JSON.stringify(board));
   }
 
-  // update board state
-  updateEditTask(task: Task) {
-    // console.log(task);
-    this.editTask.next(task);
+  EditBoard(status: String, task: Task) {
+    const currentBoard = this.kanbanBoard.value;
+    const currentStatusIndex = currentBoard.tasks.findIndex(
+      (t) => t.title === status
+    );
+    if (currentStatusIndex >= 0) {
+      const currentStatus = currentBoard.tasks[currentStatusIndex];
+      const currentTaskIndex = currentStatus.tasks.findIndex(
+        (t) => t.uid === task.uid
+      );
+      if (currentTaskIndex >= 0) {
+        const currentTask = currentStatus.tasks[currentTaskIndex];
+        currentTask.title = task.title;
+        // console.log(currentBoard);
+        this.updateBoardState(currentBoard);
+      } else {
+        currentStatus.tasks.push(task);
+      }
+    }
   }
 }

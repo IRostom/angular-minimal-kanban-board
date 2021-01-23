@@ -4,9 +4,9 @@ import {
   transferArrayItem,
 } from "@angular/cdk/drag-drop";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { Board, Status, Task } from "src/app/interfaces/task";
+import { Board, Task } from "src/app/interfaces/task";
 import { KanbanService } from "src/app/services/kanban.service";
-
+import { v1 as uuidv1 } from "uuid";
 @Component({
   selector: "app-kanban-board",
   templateUrl: "./kanban-board.component.html",
@@ -35,21 +35,13 @@ export class KanbanBoardComponent implements OnInit {
 
     this.kanban.kanbanBoard$.subscribe(
       (board) => {
-        console.log(board);
+        // console.log(board);
         if (board) {
           this.board = board;
           for (const status of board.tasks) {
-            // console.log(
-            //   "status:",
-            //   status.title,
-            //   "found:",
-            //   this.rowKeys.findIndex((el) => el === status.title)
-            // );
             if (this.rowKeys.findIndex((el) => el === status.title) < 0) {
-              // console.log("added");
               this.rowKeys.push(status.title);
             }
-            // console.log(this.rowKeys);
             this.boardModified[status.title] = status.tasks;
           }
         }
@@ -62,7 +54,7 @@ export class KanbanBoardComponent implements OnInit {
 
   drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {
-      console.log("same container drop");
+      // console.log("same container drop");
       moveItemInArray(
         event.container.data,
         event.previousIndex,
@@ -83,12 +75,21 @@ export class KanbanBoardComponent implements OnInit {
   addTask(status: String) {
     const task: Task = {
       title: "",
-      uid: "",
+      uid: uuidv1(),
     };
-    const index = this.board.tasks.findIndex((el) => el.title === status);
-    if (index >= 0) {
-      this.board.tasks[index].tasks.push(task);
-      this.kanban.updateBoardState(this.board);
+    const statusIndex = this.board.tasks.findIndex((el) => el.title === status);
+    if (statusIndex >= 0) {
+      this.kanban.EditBoard(status, task);
+      this.editableTaskUid = task.uid;
+    }
+  }
+
+  editTask(uid: string) {
+    if (this.editableTaskUid === uid) {
+      // this.editableTaskUid = null;
+      return true;
+    } else {
+      return false;
     }
   }
 }
