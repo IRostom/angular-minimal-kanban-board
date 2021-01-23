@@ -4,17 +4,21 @@ import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 import { KanbanService } from "src/app/services/kanban.service";
 import { Board } from "src/app/interfaces/task";
-
+import * as $ from 'jquery';
 @Component({
   selector: "app-kanban",
   templateUrl: "./kanban.component.html",
   styleUrls: ["./kanban.component.css"],
 })
 export class KanbanComponent implements OnInit {
+  isHandset: boolean = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
-      map((result) => result.matches),
+      map((result) => {
+        this.isHandset = result.matches;
+        return result.matches;
+      }),
       shareReplay()
     );
   userBoards$: Observable<Board[]>;
@@ -26,6 +30,13 @@ export class KanbanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    $("#kanban-board").css("height", this.getmaxHeight());
+    $("#kanban-board").css("margin-top", this.isHandset ? 60 : 70);
+    window.addEventListener("resize", () => {
+      $("#kanban-board").css("height", this.getmaxHeight());
+      $("#kanban-board").css("margin-top", this.isHandset ? 60 : 70);
+    });
+
     this.kanban.fetchUserBoards();
     this.userBoards$ = this.kanban.userBoards$;
     this.activeBoard$ = this.kanban.activeBoard$;
@@ -37,5 +48,9 @@ export class KanbanComponent implements OnInit {
 
   createNewBoard() {
     this.kanban.createNewBoard();
+  }
+
+  private getmaxHeight() {
+    return window.innerHeight - (this.isHandset ? 56 : 64) - 10;
   }
 }

@@ -1,3 +1,8 @@
+.container-fluid {
+  min-height: 100%;
+  overflow: auto;
+}
+
 .kanban-row {
   min-width: 400px;
   max-width: 400px;
