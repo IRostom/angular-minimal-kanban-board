@@ -1,12 +1,19 @@
 <mat-card class="mt-3 d-flex justify-content-between">
     <div [formGroup]="form" *ngIf="editableTask; else elseBlock">
-        <textarea formControlName="title" (focusout)="save()" #taskCard cdkTextareaAutosize matInput>{{task.title}}</textarea>
+        <textarea formControlName="title" (focusout)="save()" #taskCard cdkTextareaAutosize
+            matInput>{{task.title}}</textarea>
     </div>
     <ng-template #elseBlock>
-        {{task.title}}
+        <div *ngIf="task.title.length > 0; else placeholderBlock">
+            {{task.title}}
+        </div>
+
+        <ng-template #placeholderBlock>
+            <p class="text-muted">Untitled</p>
+        </ng-template>
     </ng-template>
     <div>
-        <button (click)="editTask()" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+        <button (click)="editTask()" mat-icon-button class="ml-auto">
             <mat-icon>create</mat-icon>
         </button>
     </div>
