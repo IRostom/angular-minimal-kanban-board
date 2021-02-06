@@ -5,6 +5,7 @@ import { map, shareReplay } from "rxjs/operators";
 import { KanbanService } from "src/app/services/kanban.service";
 import { Board } from "src/app/interfaces/task";
 import * as $ from "jquery";
+import { FormControl } from "@angular/forms";
 @Component({
   selector: "app-kanban",
   templateUrl: "./kanban.component.html",
@@ -23,7 +24,8 @@ export class KanbanComponent implements OnInit {
     );
   userBoards$: Observable<Board[]>;
   activeBoard$: Observable<Board>;
-
+  editBoardTitle: boolean;
+  boardTitle: FormControl;
   constructor(
     private breakpointObserver: BreakpointObserver,
     private kanban: KanbanService
@@ -36,10 +38,20 @@ export class KanbanComponent implements OnInit {
       $("#kanban-board").css("height", this.getmaxHeight());
       $("#kanban-board").css("margin-top", this.isHandset ? 60 : 70);
     });
-
     this.kanban.fetchUserBoards();
     this.userBoards$ = this.kanban.userBoards$;
-    this.activeBoard$ = this.kanban.activeBoard$;
+    this.boardTitle = new FormControl();
+    this.activeBoard$ = this.kanban.activeBoard$.pipe(
+      map((board) => {
+        if (board) {
+          this.boardTitle.setValue(board.title);
+        } else {
+          this.boardTitle.setValue("Untitled Board");
+        }
+        return board;
+      })
+    );
+    this.editBoardTitle = false;
   }
 
   changeActiveBoard(board: Board) {
@@ -56,5 +68,15 @@ export class KanbanComponent implements OnInit {
 
   deleteBoard() {
     this.kanban.deleteBoard();
+  }
+
+  renameBoard() {
+    this.editBoardTitle = true;
+  }
+
+  saveBoardTitle() {
+    this.editBoardTitle = false;
+    // console.log(this.boardTitle.value);
+    this.kanban.renameBoard(this.boardTitle.value);
   }
 }

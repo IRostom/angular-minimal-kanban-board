@@ -142,4 +142,10 @@ export class KanbanService {
       this.updateUserBoards(boards);
     }
   }
+
+  renameBoard(title: string) {
+    const activeBoard: Board = this.activeBoard.getValue();
+    activeBoard.title = title;
+    this.updateActiveBoard(activeBoard);
+  }
 }

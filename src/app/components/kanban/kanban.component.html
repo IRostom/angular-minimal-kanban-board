@@ -23,7 +23,18 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <div *ngIf="activeBoard$|async as board">
-        <span>{{board.title}}</span>
+        <div *ngIf="editBoardTitle; else elseBlock">
+          <input [formControl]="boardTitle" (focusout)="saveBoardTitle()" matInput value="{{board.title}}">
+        </div>
+        <ng-template #elseBlock>
+          <div *ngIf="board.title.length > 0; else placeholderBlock">
+            {{board.title}}
+          </div>
+
+          <ng-template #placeholderBlock>
+            <p class="text-muted">Untitled Board</p>
+          </ng-template>
+        </ng-template>
       </div>
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
         <mat-icon>more_vert</mat-icon>
@@ -32,6 +43,10 @@
         <button mat-menu-item (click)="deleteBoard()">
           <mat-icon>delete</mat-icon>
           <span>Delete</span>
+        </button>
+        <button mat-menu-item (click)="renameBoard()">
+          <mat-icon>drive_file_rename_outline</mat-icon>
+          <span>Rename</span>
         </button>
       </mat-menu>
 
