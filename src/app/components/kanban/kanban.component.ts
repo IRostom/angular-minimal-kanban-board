@@ -13,15 +13,7 @@ import { FormControl } from "@angular/forms";
 })
 export class KanbanComponent implements OnInit {
   isHandset: boolean = false;
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(
-      map((result) => {
-        this.isHandset = result.matches;
-        return result.matches;
-      }),
-      shareReplay()
-    );
+  isHandset$: Observable<boolean>;
   userBoards$: Observable<Board[]>;
   activeBoard$: Observable<Board>;
   editBoardTitle: boolean;
@@ -32,11 +24,28 @@ export class KanbanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    $("#kanban-board").css("height", this.getmaxHeight());
-    $("#kanban-board").css("margin-top", this.isHandset ? 60 : 70);
+    this.isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+      map((result) => {
+        this.isHandset = result.matches;
+        $("#kanban-board").css("margin-top", 70);
+        $("#menu").css("margin-left", "auto");
+        $("#kanban-board").css("height", this.getmaxHeight());
+        $("#toolbar").css(
+          "width",
+          this.isHandset ? "100%" : this.getmaxWidth()
+        );
+        return result.matches;
+      }),
+      shareReplay()
+    );
+    // $("#kanban-board").css("height", this.getmaxHeight());
+    // $("#kanban-board").css("margin-top", this.isHandset ? 60 : 70);
+    // $("#toolbar").css("width", this.isHandset ? "100%" : "50%");
     window.addEventListener("resize", () => {
+      // console.log(this.getmaxWidth());
       $("#kanban-board").css("height", this.getmaxHeight());
-      $("#kanban-board").css("margin-top", this.isHandset ? 60 : 70);
+      // $("#kanban-board").css("margin-top", 70);
+      $("#toolbar").css("width", this.isHandset ? "100%" : this.getmaxWidth());
     });
     this.kanban.fetchUserBoards();
     this.userBoards$ = this.kanban.userBoards$;
@@ -64,6 +73,10 @@ export class KanbanComponent implements OnInit {
 
   private getmaxHeight() {
     return window.innerHeight - (this.isHandset ? 56 : 64) - 10;
+  }
+
+  private getmaxWidth() {
+    return window.innerWidth - (this.isHandset ? 0 : $("#drawer").width());
   }
 
   deleteBoard() {
