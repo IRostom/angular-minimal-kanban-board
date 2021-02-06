@@ -6,23 +6,29 @@ import { AppComponent } from "./app.component";
 import { KanbanBoardComponent } from "./components/kanban-board/kanban-board.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { HttpClientModule } from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {TextFieldModule} from '@angular/cdk/text-field';
-import {MatIconModule} from '@angular/material/icon';
-import { TaskCardComponent } from './components/task-card/task-card.component';
+import { HttpClientModule } from "@angular/common/http";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatCardModule } from "@angular/material/card";
+import { MatButtonModule } from "@angular/material/button";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { TextFieldModule } from "@angular/cdk/text-field";
+import { MatIconModule } from "@angular/material/icon";
+import { TaskCardComponent } from "./components/task-card/task-card.component";
 import { ReactiveFormsModule } from "@angular/forms";
-import { KanbanComponent } from './components/kanban/kanban.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
+import { KanbanComponent } from "./components/kanban/kanban.component";
+import { LayoutModule } from "@angular/cdk/layout";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatListModule } from "@angular/material/list";
+import { MatMenuModule } from "@angular/material/menu";
 
 @NgModule({
-  declarations: [AppComponent, KanbanBoardComponent, TaskCardComponent, KanbanComponent],
+  declarations: [
+    AppComponent,
+    KanbanBoardComponent,
+    TaskCardComponent,
+    KanbanComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -39,7 +45,8 @@ import { MatListModule } from '@angular/material/list';
     LayoutModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    MatMenuModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

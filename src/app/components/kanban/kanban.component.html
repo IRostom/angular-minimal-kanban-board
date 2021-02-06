@@ -6,8 +6,8 @@
     <div *ngIf="userBoards$ | async as userBoards">
       <div *ngIf="userBoards?.length > 0"></div>
       <mat-action-list>
-        <button *ngFor="let board of userBoards" mat-list-item
-          (click)="changeActiveBoard(board)">{{board.title}}</button>
+        <button *ngFor="let board of userBoards" mat-list-item (click)="changeActiveBoard(board)">{{board.title}}
+        </button>
       </mat-action-list>
     </div>
 
@@ -25,6 +25,16 @@
       <div *ngIf="activeBoard$|async as board">
         <span>{{board.title}}</span>
       </div>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="deleteBoard()">
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+
     </mat-toolbar>
     <div id="kanban-board">
       <app-kanban-board></app-kanban-board>

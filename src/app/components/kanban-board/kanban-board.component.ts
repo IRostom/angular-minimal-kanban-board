@@ -69,7 +69,7 @@ export class KanbanBoardComponent implements OnInit {
       (el) => el.title === status
     );
     if (statusIndex >= 0) {
-      this.kanban.EditActiveBoard(status, task);
+      this.kanban.editActiveBoard(status, task);
       this.editableTaskUid = task.uid;
     }
   }

@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { map, shareReplay } from "rxjs/operators";
 import { KanbanService } from "src/app/services/kanban.service";
 import { Board } from "src/app/interfaces/task";
-import * as $ from 'jquery';
+import * as $ from "jquery";
 @Component({
   selector: "app-kanban",
   templateUrl: "./kanban.component.html",
@@ -52,5 +52,9 @@ export class KanbanComponent implements OnInit {
 
   private getmaxHeight() {
     return window.innerHeight - (this.isHandset ? 56 : 64) - 10;
+  }
+
+  deleteBoard() {
+    this.kanban.deleteBoard();
   }
 }

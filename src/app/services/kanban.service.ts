@@ -107,7 +107,7 @@ export class KanbanService {
     return newBoard;
   }
 
-  EditActiveBoard(status: String, task: Task) {
+  editActiveBoard(status: String, task: Task) {
     const currentBoard = this.activeBoard.value;
     const currentStatusIndex = currentBoard.status.findIndex(
       (t) => t.title === status
@@ -126,6 +126,20 @@ export class KanbanService {
         currentStatus.tasks.push(task);
       }
       this.updateActiveBoard(currentBoard);
+    }
+  }
+
+  deleteBoard() {
+    const boards: Board[] = this.userBoards.getValue();
+    const activeBoard: Board = this.activeBoard.getValue();
+    const index = boards.findIndex((b) => b.uid === activeBoard.uid);
+    console.log(index);
+
+    if (index >= 0) {
+      boards.splice(index, 1);
+      console.log(boards);
+      this.updateActiveBoard(boards[0], false);
+      this.updateUserBoards(boards);
     }
   }
 }
