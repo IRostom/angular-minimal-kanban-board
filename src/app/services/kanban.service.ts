@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Board, Task } from "../interfaces/task";
 import { v1 as uuidv1 } from "uuid";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Injectable({
   providedIn: "root",
@@ -15,7 +16,7 @@ export class KanbanService {
   private userBoards: BehaviorSubject<Board[]> = new BehaviorSubject(null);
   userBoards$ = this.userBoards.asObservable();
 
-  constructor() {}
+  constructor(private sanitizer: DomSanitizer) {}
 
   updateActiveBoard(board: Board, updateStorage: boolean = true) {
     // update active board state
@@ -147,5 +148,13 @@ export class KanbanService {
     const activeBoard: Board = this.activeBoard.getValue();
     activeBoard.title = title;
     this.updateActiveBoard(activeBoard);
+  }
+
+  exportBoardToJSON() {
+    var theJSON = JSON.stringify(this.activeBoard.getValue());
+    var uri = this.sanitizer.bypassSecurityTrustUrl(
+      "data:text/json;charset=UTF-8," + encodeURIComponent(theJSON)
+    );
+    return uri;
   }
 }

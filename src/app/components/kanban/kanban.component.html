@@ -48,6 +48,10 @@
           <mat-icon>drive_file_rename_outline</mat-icon>
           <span>Rename</span>
         </button>
+        <a mat-menu-item (click)="exportJSON()" [href]="exportJSON()" download="{{boardTitle.value}}.json">
+          <mat-icon>file_download</mat-icon>
+          <span>Export as JSON</span>
+        </a>
       </mat-menu>
 
     </mat-toolbar>

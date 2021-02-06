@@ -79,4 +79,10 @@ export class KanbanComponent implements OnInit {
     // console.log(this.boardTitle.value);
     this.kanban.renameBoard(this.boardTitle.value);
   }
+
+  exportJSON() {
+    // console.log(this.boardTitle.value);
+
+    return this.kanban.exportBoardToJSON();
+  }
 }
